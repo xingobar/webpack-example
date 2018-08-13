@@ -12,8 +12,10 @@
 	"license": "ISC",
 	"dependencies": {
 		"mongodb": "*",
+		"node-sass": "^4.9.3",
 		"react": "^16.4.2",
-		"react-dom": "^16.4.2"
+		"react-dom": "^16.4.2",
+		"scss-loader": "0.0.1"
 	},
 	"devDependencies": {
 		"autoprefixer": "^9.1.0",

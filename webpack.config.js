@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin'); // npm install extract-text-webpack-plugin@next
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
@@ -40,8 +40,10 @@ module.exports = {
 		//熱加載
 		new webpack.HotModuleReplacementPlugin(),
 		
-		// 將css & JS 分離,將分離出來的css，命名為 style.css
-		new ExtractTextPlugin('style.css'), 
+		// 將css & JS 分離,將分離出來的css，命名為 style-[hash].css
+		new ExtractTextPlugin({
+			filename:'style-[hash].css'
+		}), 
 		
 		//使用樣板會自動套用js以及css
 		//Ref: http://www.cnblogs.com/haogj/p/5160821.html
@@ -51,7 +53,7 @@ module.exports = {
 
 		// 因為增加了緩存功能(hash),所以檔案會一直增加，因此用此套件在build前，
 		// 將build資料夾下的所有檔案移除
-		new CleanWebpackPlugin('build/*.*',{
+		new CleanWebpackPlugin('build',{
 			dry:false, // not emulate delete 
 			verbose:false, // not show console
 			root:__dirname, // root of your package
@@ -80,7 +82,24 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
-				use: [ 'style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader?sourceMap' ]
+				// use: [ 'style-loader', 'css-loader', 'resolve-url-loader', 'sass-loader?sourceMap' ]
+				use: [
+					{
+						loader:'style-loader'
+					},
+					{
+						loader:'css-loader',
+						options:{
+							sourceMap:true
+						}
+					},
+					{
+						loader:'sass-loader',
+						options:{
+							sourceMap:true
+						}
+					}
+				]
 			},
 			{
 				test: /(\.js|\.jsx)$/,
