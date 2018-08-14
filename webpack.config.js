@@ -17,7 +17,8 @@ module.exports = {
 		contentBase: './public', //頁面所在的位置
 		port: 4000,
 		inline: true, // 文件改變時自動刷新
-		hot: true
+		hot: true,
+		// publicPath:'/build' //假如頁面跟js在不一樣的位置的話，要指定讀取JS的位置
 	},
 
 	optimization: {
@@ -115,7 +116,7 @@ module.exports = {
 			},
 			{
 				test:/\.(png|jpg|jpeg|gif)$/,
-				user:[
+				use:[
 					{
 						loader:'file-loader',
 						options:{
@@ -126,6 +127,22 @@ module.exports = {
 						loader:'image-webpack-loader' //圖片壓縮
 					}
 				]
+				
+				// use:{
+				// 	loader:'url-loader',
+				// 	options:{
+				// 		limit:8192,
+				//	    name:'assets/[name]-[hash:5].[ext]',
+				//	    outputPath:'assets/',
+				//		publicPath:'/assets/',
+				// 		fallback:[ //圖片大於8192時，交給file-loader
+				// 			'file-loader',
+				// 			{
+				// 				loader:'image-webpack-loader'
+				// 			}
+				// 		]
+				// 	}
+				// }
 			}
 		]
 	}
