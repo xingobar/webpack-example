@@ -6,7 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 module.exports = {
-	devtool: 'eval-source-map',
+	devtool: 'source-map',
 	entry: [ './src/main.js' ],
 	output: {
 		path: path.join(__dirname, 'build'),
@@ -24,8 +24,10 @@ module.exports = {
 		minimizer: [
 			// minify js檔案大小
 			new UglifyJsPlugin({
+				sourceMap: true,
 				uglifyOptions: {
-					warnings: false
+					warnings: false,
+					compress:true
 				}
 			})
 		]
@@ -110,6 +112,20 @@ module.exports = {
 					// }
 				},
 				exclude: /node_modules/
+			},
+			{
+				test:/\.(png|jpg|jpeg|gif)$/,
+				user:[
+					{
+						loader:'file-loader',
+						options:{
+							name:'assets/[name]-[hash:5].[ext]' // 檔名-hash.副檔名
+						},
+					},
+					{
+						loader:'image-webpack-loader' //圖片壓縮
+					}
+				]
 			}
 		]
 	}
