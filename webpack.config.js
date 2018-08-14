@@ -78,7 +78,7 @@ module.exports = {
 							}
 						},
 						{
-							loader: 'postcss-loader'
+							loader: 'postcss-loader',
 						}
 					]
 				})
@@ -115,34 +115,19 @@ module.exports = {
 				exclude: /node_modules/
 			},
 			{
-				test:/\.(png|jpg|jpeg|gif)$/,
+				test: /\.(gif|png|jpe?g|svg)$/i,
 				use:[
 					{
-						loader:'file-loader',
+						loader:'url-loader',
 						options:{
-							name:'assets/[name]-[hash:5].[ext]' // 檔名-hash.副檔名
-						},
+							fallback:'responsive-loader',
+							quality:85,
+							limit:8000,
+							name:'assets/[name]__[hash:5].[ext]',
+							sizes: [300, 600, 900],
+						}
 					},
-					{
-						loader:'image-webpack-loader' //圖片壓縮
-					}
 				]
-				
-				// use:{
-				// 	loader:'url-loader',
-				// 	options:{
-				// 		limit:8192,
-				//	    name:'assets/[name]-[hash:5].[ext]',
-				//	    outputPath:'assets/',
-				//		publicPath:'/assets/',
-				// 		fallback:[ //圖片大於8192時，交給file-loader
-				// 			'file-loader',
-				// 			{
-				// 				loader:'image-webpack-loader'
-				// 			}
-				// 		]
-				// 	}
-				// }
 			}
 		]
 	}
